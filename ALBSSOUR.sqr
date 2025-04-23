@@ -1,0 +1,28 @@
+
+!#include 'setenv.sqc'   	!Set environment
+!#include 'albstenv.sqc'   !Set BCBS environment
+#include 'alb_sso_url.sqc'   !Set BCBS environment
+
+begin-program
+ 	!do Stdapi-Init
+ 	do main
+	!do stdapi-term
+    show 'Program End'
+    
+end-program
+
+begin-procedure main
+
+    show 'main start'
+    
+    let $baseURL =''
+    let $outputURL ='test'
+    let $baseURL = 'https://example.com'
+
+    do alb-sso-url !($baseURL, $outputURL)  ! Call the procedure from SQC
+
+    show 'Final URL: ' $outputURL
+     
+    show 'main End' 
+      
+end-procedure main    

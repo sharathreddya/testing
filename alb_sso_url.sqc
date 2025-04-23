@@ -1,0 +1,46 @@
+! Reusable SQC to generate full ALB SSO URL
+! Usage: define $baseURL before including this file, get $finalURL as result
+
+begin-procedure alb-sso-url
+    let $prefixURL  = ''
+    let $suffixURL  = ''
+    let $finalURL   = ''
+    
+    show 'Start alb-sso-url'
+
+BEGIN-SELECT
+MAX(CASE WHEN STRING_ID = 'PRE_URL1' THEN STRING_TEXT ELSE '' END) &pURL1
+MAX(CASE WHEN STRING_ID = 'PRE_URL2' THEN STRING_TEXT ELSE '' END) &pURL2
+MAX(CASE WHEN STRING_ID = 'POST_URL' THEN STRING_TEXT ELSE '' END) &suffixURL
+   
+  move &pURL1 to $pURL1
+  Move &pURL2 to $pURL2
+  Move &suffixURL to $suffixURL
+ 
+  show $pURL1 ' ' $pURL2 ' '  $suffixURL
+ 
+ 
+  let $prefixURL 			= $pURL1 || $pURL2
+
+from PS_STRINGS_TBL A
+where A.PROGRAM_ID = 'ALB_SSO'
+and A.STRING_ID in ('PRE_URL1', 'PRE_URL2', 'POST_URL')
+and exists (
+select 'X'
+from PS_STRINGS_TBL Y
+where Y.PROGRAM_ID = 'ALB_SSO'
+and Y.STRING_ID in (select SHORTNAME from PSOPTIONS)
+and Y.STRING_TEXT = 'Y'
+)
+END-SELECT
+
+
+    if length($prefixURL) > 0 and length($suffixURL) > 0 and length($baseURL) > 0
+        let $finalURL = $prefixURL || $baseURL || $suffixURL
+    else
+        let $finalURL = $baseURL
+    end-if
+    
+    let $outputURL = $finalURL
+    
+end-procedure alb-sso-url
