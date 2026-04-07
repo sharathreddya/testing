@@ -1,0 +1,168 @@
+/* =====================================================
+   ALB_CG_GRID_CSS - SUGGESTED REVISION
+   Improvements included:
+   - Replaced off-brand hardcoded blues with company variables
+   - Added mobile fallback for 2-column grid
+   - Added keyboard focus-visible styles
+   - Improved text wrapping for long labels
+   - Normalized spacing and transitions
+   - Kept PeopleSoft-specific selectors intact
+   ===================================================== */
+
+:root {
+  --white: #fff;
+  --black: #000;
+  --blue-primary: #0078CC;
+  --blue-dark: #004E87;
+  --blue-bright: #2AA7FF;
+  --blue-light: #D9EDF7;
+  --card-bg-soft: #f8fafc;
+  --card-border: #e5e7eb;
+  --card-border-soft: #dbe4f0;
+  --card-icon-bg: #eef4fb;
+}
+
+/* =====================================================
+   GRID LAYOUT
+   ===================================================== */
+.ps_grid-list .ps_grid-body {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  padding: 16px;
+  margin: 0;
+  list-style: none;
+}
+
+@media (max-width: 767px) {
+  .ps_grid-list .ps_grid-body {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 12px;
+  }
+}
+
+/* =====================================================
+   TILE CARD
+   ===================================================== */
+.ps_box-gridc .ps_grid-row {
+  position: relative;
+  background: linear-gradient(180deg, var(--white) 0%, var(--card-bg-soft) 100%);
+  border-radius: 14px;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.ps_box-gridc .ps_grid-row:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 26px rgba(0, 0, 0, 0.15);
+  border-color: var(--blue-bright);
+}
+
+.ps_box-gridc .ps_grid-row:focus-within {
+  border-color: var(--blue-bright);
+  box-shadow: 0 0 0 3px rgba(42, 167, 255, 0.22), 0 14px 26px rgba(0, 0, 0, 0.12);
+}
+
+/* =====================================================
+   LEFT ACCENT BAR
+   ===================================================== */
+.ps_box-gridc .ps_grid-row::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 100%;
+  border-radius: 14px 0 0 14px;
+}
+
+.ps_box-gridc .ps_grid-row.psc_rowact:hover::before,
+.ps_box-gridc .ps_grid-row.psc_rowact:focus-within::before {
+  background: linear-gradient(90deg, var(--blue-primary) 0%, var(--blue-dark) 50%, var(--blue-bright) 100%);
+  border-radius: 12px 0 0 12px;
+}
+
+/* =====================================================
+   LINK CONTAINER
+   ===================================================== */
+.ps_box-gridc a.ps-link {
+  display: block;
+  padding: 1.25rem 1.5rem 1.25rem 2.75rem;
+  text-decoration: none;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.ps_box-gridc a.ps-link:focus-visible {
+  outline: 3px solid rgba(42, 167, 255, 0.45);
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+
+.ps_box-gridc a.ps-link * {
+  float: none !important;
+}
+
+/* =====================================================
+   TEXT
+   ===================================================== */
+.ps_box-gridc .ps-text {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--blue-primary);
+  margin-left: 1em;
+  transition: color 0.25s ease;
+}
+
+.ps_box-gridc .ps_grid-row:hover .ps-text,
+.ps_box-gridc .ps_grid-row:focus-within .ps-text {
+  color: var(--blue-dark);
+}
+
+/* =====================================================
+   ICON
+   ===================================================== */
+.hrs_cg_home_img_size.psc_list-linkmenu.psc_list-has-icon li.ps_grid-row > .ps_box-link:not(.psc_list-tertiary):not(.psc_menu-rc) > .ps-link-wrapper > .ps-link > .ps-img {
+  display: inline-block;
+  vertical-align: middle;
+  width: 30px !important;
+  height: 30px !important;
+  margin-left: 12px !important;
+  margin-top: -1.5em;
+  padding: 6px;
+  border-radius: 50%;
+  background: var(--card-icon-bg);
+  border: 1px solid var(--card-border-soft);
+  transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+}
+
+.ps_box-gridc .ps_grid-row:hover .ps-img,
+.ps_box-gridc .ps_grid-row:focus-within .ps-img {
+  background: var(--blue-light);
+  border-color: var(--blue-bright);
+  transform: scale(1.08);
+}
+
+/* =====================================================
+   CLEANUP
+   ===================================================== */
+.psc_gridlist-borderall.ps_box-grid-list .ps_box-gridc {
+  border: none !important;
+}
+
+.psc_list-linkmenu.psc_has-count li.ps_grid-row {
+  padding-right: 0 !important;
+}
+
+.psc_list-linkmenu.psc_list-has-icon:not(.psc_list-icon-top) li.ps_grid-row > .ps_box-link:not(.psc_list-tertiary) > .ps-link-wrapper > .ps-link > .ps-img {
+  top: unset !important;
+}
+
+label#HRS_SCH_WRK_HRS_SCH_TEXT100_LBL {
+  display: none !important;
+}
